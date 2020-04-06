@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" rel="stylesheet">
     <title>Pomme Diem</title>
-    <script src="style.css"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <script src="./node_modules/progressbar.js/dist/progressbar.js"></script>
   </head>
   <body>
-    <script src="script.js"></script>
+
     <h1>Pomme Diem</h1>
     <div id="pomodoro-container">
       <div id="pomodoro-clock">
@@ -15,7 +18,7 @@
           <input
             type="text"
             id="pomodoro-clock-task"
-            placeholder="Your challenge, should you accept it..."
+            placeholder="Your challenge..."
             />
         </div>
         <div id="pomodoro-clock-actions">
@@ -29,7 +32,8 @@
         </div>
         <div id="pomodoro-clock-title">
           <span>
-
+            Changes made here will reflect at the start of the next work /
+            break session
           </span>
         </div>
         <div id="pomodoro-clock-actions">

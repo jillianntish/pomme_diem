@@ -1,8 +1,8 @@
+document.addEventListener("DOMContentLoaded", () => {
 const pomodoroTimer = document.querySelector('#pomodoro-timer');
 
 const startButton = document.querySelector('#pomodoro-start');
 const stopButton = document.querySelector('#pomodoro-stop');
-
 
 let isClockRunning = false;
 // in seconds = 25 mins
@@ -13,6 +13,7 @@ let breakSessionDuration = 300;
 let type = 'Work';
 let timeSpentInCurrentSession = 0;
 
+let currentTaskLabel = document.querySelector("#pomodoro-clock-task");
 
 let updatedWorkSessionDuration;
 let updatedBreakSessionDuration;
@@ -22,6 +23,17 @@ let breakDurationInput = document.querySelector('#input-break-duration');
 
 workDurationInput.value = '25';
 breakDurationInput.value = '5';
+
+let isClockStopped = true;
+
+const progressBar = new ProgressBar.Circle("#pomodoro-timer", {
+  strokeWidth: 2,
+  text: {
+    value: "25:00"
+  },
+  trailColor: "#f4f4f4",
+});
+
 // START
 startButton.addEventListener('click', () => {
   toggleClock();
@@ -38,27 +50,11 @@ workDurationInput.addEventListener('input', () => {
 
 // UPDATE PAUSE TIME
 breakDurationInput.addEventListener('input', () => {
-  updatedBreakSessionDuration = minuteToSeconds(
-    breakDurationInput.value
-  )
+  updatedBreakSessionDuration = minuteToSeconds(breakDurationInput.value)
 })
 
 const minuteToSeconds = mins => {
-  return mins * 60
-}
-
-const setUpdatedTimers = () => {
-  if (type === 'Work') {
-    currentTimeLeftInSession = updatedWorkSessionDuration
-      ? updatedWorkSessionDuration
-      : workSessionDuration
-    workSessionDuration = currentTimeLeftInSession
-  } else {
-    currentTimeLeftInSession = updatedBreakSessionDuration
-      ? updatedBreakSessionDuration
-      : breakSessionDuration
-    breakSessionDuration = currentTimeLeftInSession
-  }
+  return mins * 60;
 }
 
 const toggleClock = (reset) => {
@@ -80,15 +76,15 @@ const toggleClock = (reset) => {
       // START THE TIMER
       clockTimer = setInterval(() => {
         stepDown();
-        // decrease time left / increase time spent
-        currentTimeLeftInSession--;
+        // currentTimeLeftInSession--;
         displayCurrentTimeLeftInSession();
+        progressBar.set(calculateSessionProgress());
       }, 1000);
       isClockRunning = true;
     }
     showStopIcon();
   }
-}
+;}
 
 const displayCurrentTimeLeftInSession = () => {
   const secondsLeft = currentTimeLeftInSession;
@@ -102,7 +98,7 @@ const displayCurrentTimeLeftInSession = () => {
   }
   if (hours > 0) result += `${hours}:`
   result += `${addLeadingZeroes(minutes)}:${addLeadingZeroes(seconds)}`
-  pomodoroTimer.innerText = result.toString();
+  progressBar.text.innerText = result.toString();
 }
 
 const stopClock = () => {
@@ -110,15 +106,15 @@ const stopClock = () => {
   setUpdatedTimers();
   displaySessionLog(type);
   clearInterval(clockTimer);
-  isClockStopped();
+  isClockStopped = true;
   // 2) update our variable to know that the timer is stopped
   isClockRunning = false;
   // reset the time left in the session to its original state
   currentTimeLeftInSession = workSessionDuration;
   // update the timer displayed
   displayCurrentTimeLeftInSession();
-  timeSpentInCurrentSession = 0;
   type = type === 'Work' ? 'Break' : 'Work';
+  timeSpentInCurrentSession = 0;
 }
 
 const stepDown = () => {
@@ -164,7 +160,6 @@ const stepDown = () => {
     } else {
       sessionLabel = 'Break'
     }
-
     let elapsedTime = parseInt(timeSpentInCurrentSession / 60)
     elapsedTime = elapsedTime > 0 ? elapsedTime : '< 1';
   
@@ -173,6 +168,20 @@ const stepDown = () => {
     )
     li.appendChild(text);
   sessionsList.appendChild(li);
+}
+
+const setUpdatedTimers = () => {
+  if (type === 'Work') {
+    currentTimeLeftInSession = updatedWorkSessionDuration
+      ? updatedWorkSessionDuration
+      : workSessionDuration
+    workSessionDuration = currentTimeLeftInSession
+  } else {
+    currentTimeLeftInSession = updatedBreakSessionDuration
+      ? updatedBreakSessionDuration
+      : breakSessionDuration
+    breakSessionDuration = currentTimeLeftInSession
+  }
 }
 
 const togglePlayPauseIcon = (reset) => {
@@ -190,9 +199,17 @@ const togglePlayPauseIcon = (reset) => {
     playIcon.classList.toggle('hidden')
     pauseIcon.classList.toggle('hidden')
   }
-}
+};
 
 const showStopIcon = () => {
   const stopButton = document.querySelector('#pomodoro-stop')
   stopButton.classList.remove('hidden');
 }
+
+const calculateSessionProgress = () => {
+  // calculate the completion rate of this session
+  const sessionDuration =
+    type === "Work" ? workSessionDuration : breakSessionDuration;
+  return (timeSpentInCurrentSession / sessionDuration) * 10;
+  }
+});
