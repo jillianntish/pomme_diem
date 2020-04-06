@@ -1,7 +1,6 @@
 const pomodoroTimer = document.querySelector('#pomodoro-timer');
 
 const startButton = document.querySelector('#pomodoro-start');
-const pauseButton = document.querySelector('#pomodoro-pause');
 const stopButton = document.querySelector('#pomodoro-stop');
 
 
@@ -14,13 +13,17 @@ let breakSessionDuration = 300;
 let type = 'Work';
 let timeSpentInCurrentSession = 0;
 
+
+let updatedWorkSessionDuration;
+let updatedBreakSessionDuration;
+
+let workDurationInput = document.querySelector('#input-work-duration');
+let breakDurationInput = document.querySelector('#input-break-duration');
+
+workDurationInput.value = '25';
+breakDurationInput.value = '5';
 // START
 startButton.addEventListener('click', () => {
-  toggleClock();
-})
-
-// PAUSE
-pauseButton.addEventListener('click', () => {
   toggleClock();
 })
 
@@ -28,25 +31,60 @@ stopButton.addEventListener('click', () => {
   toggleClock(true);
 })
 
+// UPDATE WORK TIME
+workDurationInput.addEventListener('input', () => {
+  updatedWorkSessionDuration = minuteToSeconds(workDurationInput.value)
+})
 
+// UPDATE PAUSE TIME
+breakDurationInput.addEventListener('input', () => {
+  updatedBreakSessionDuration = minuteToSeconds(
+    breakDurationInput.value
+  )
+})
+
+const minuteToSeconds = mins => {
+  return mins * 60
+}
+
+const setUpdatedTimers = () => {
+  if (type === 'Work') {
+    currentTimeLeftInSession = updatedWorkSessionDuration
+      ? updatedWorkSessionDuration
+      : workSessionDuration
+    workSessionDuration = currentTimeLeftInSession
+  } else {
+    currentTimeLeftInSession = updatedBreakSessionDuration
+      ? updatedBreakSessionDuration
+      : breakSessionDuration
+    breakSessionDuration = currentTimeLeftInSession
+  }
+}
 
 const toggleClock = (reset) => {
   if (reset) {
     // STOP THE TIMER
     stopClock();
   } else {
+
+    if (isClockStopped) {
+      setUpdatedTimers();
+      isClockStopped = false;
+    }
+
     if (isClockRunning === true) {
       // PAUSE THE TIMER
-      isClockRunning = false;
       clearInterval(clockTimer);
+      isClockRunning = false;
     } else {
       // START THE TIMER
       isClockRunning = true;
       clockTimer = setInterval(() => {
+        stepDown();
         // decrease time left / increase time spent
         currentTimeLeftInSession--;
-        // displayCurrentTimeLeftInSession();
-        stepDown();
+        displayCurrentTimeLeftInSession();
+        isClockRunning = true;
     }, 1000)
     }
   }
@@ -69,8 +107,10 @@ const displayCurrentTimeLeftInSession = () => {
 
 const stopClock = () => {
   // 1) reset the timer we set
+  setUpdatedTimers();
   displaySessionLog(type);
   clearInterval(clockTimer);
+  isClockStopped();
   // 2) update our variable to know that the timer is stopped
   isClockRunning = false;
   // reset the time left in the session to its original state
@@ -87,26 +127,44 @@ const stepDown = () => {
     currentTimeLeftInSession--;
     timeSpentInCurrentSession++;
     } else if (currentTimeLeftInSession === 0) {
-      // Timer is over -> if work switch to break, viceversa
       timeSpentInCurrentSession = 0;
-      if (type === 'Work') {
-        currentTimeLeftInSession = breakSessionDuration;
-        displaySessionLog('Work');
-        type = 'Break';
-      } else {
-        currentTimeLeftInSession = workSessionDuration;
-        type = 'Work';
-        displaySessionLog('Break');
-      }
+  // Timer is over -> if work switch to break, viceversa
+  if (type === 'Work') {
+    currentTimeLeftInSession = breakSessionDuration;
+    displaySessionLog('Work');
+    type = 'Break';
+    setUpdatedTimers();
+    // new
+    currentTaskLabel.value = 'Break';
+    currentTaskLabel.disabled = true;
+  } else {
+    currentTimeLeftInSession = workSessionDuration;
+    type = 'Work';
+    setUpdatedTimers();
+    // new
+    if (currentTaskLabel.value === 'Break') {
+      currentTaskLabel.value = workSessionLabel;
     }
-    displayCurrentTimeLeftInSession();
+    currentTaskLabel.disabled = false;
+    displaySessionLog('Break');
   }
+  }
+}
 
   const displaySessionLog = (type) => {
     const sessionsList = document.querySelector('#pomodoro-sessions');
     // append li to it
     const li = document.createElement('li');
-    let sessionLabel = type;
+    // let sessionLabel = type;
+    if (type === 'Work') {
+      sessionLabel = currentTaskLabel.value
+        ? currentTaskLabel.value
+        : 'Work'
+      workSessionLabel = sessionLabel
+    } else {
+      sessionLabel = 'Break'
+    }
+
     let elapsedTime = parseInt(timeSpentInCurrentSession / 60)
     elapsedTime = elapsedTime > 0 ? elapsedTime : '< 1';
   
