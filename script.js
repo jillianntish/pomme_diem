@@ -62,11 +62,11 @@ const setUpdatedTimers = () => {
 }
 
 const toggleClock = (reset) => {
+  togglePlayPauseIcon(reset);
   if (reset) {
     // STOP THE TIMER
     stopClock();
   } else {
-
     if (isClockStopped) {
       setUpdatedTimers();
       isClockStopped = false;
@@ -78,15 +78,15 @@ const toggleClock = (reset) => {
       isClockRunning = false;
     } else {
       // START THE TIMER
-      isClockRunning = true;
       clockTimer = setInterval(() => {
         stepDown();
         // decrease time left / increase time spent
         currentTimeLeftInSession--;
         displayCurrentTimeLeftInSession();
-        isClockRunning = true;
-    }, 1000)
+      }, 1000);
+      isClockRunning = true;
     }
+    showStopIcon();
   }
 }
 
@@ -173,4 +173,26 @@ const stepDown = () => {
     )
     li.appendChild(text);
   sessionsList.appendChild(li);
+}
+
+const togglePlayPauseIcon = (reset) => {
+  const playIcon = document.querySelector('#play-icon');
+  const pauseIcon = document.querySelector('#pause-icon');
+  if (reset) {
+    // when resetting -> always revert to play icon
+    if (playIcon.classList.contains('hidden')) {
+      playIcon.classList.remove('hidden')
+    }
+    if (!pauseIcon.classList.contains('hidden')) {
+      pauseIcon.classList.add('hidden')
+    }
+  } else {
+    playIcon.classList.toggle('hidden')
+    pauseIcon.classList.toggle('hidden')
+  }
+}
+
+const showStopIcon = () => {
+  const stopButton = document.querySelector('#pomodoro-stop')
+  stopButton.classList.remove('hidden');
 }

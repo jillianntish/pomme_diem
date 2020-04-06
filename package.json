@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/jillianntish/pomme_diem/issues"
   },
-  "homepage": "https://github.com/jillianntish/pomme_diem#readme"
+  "homepage": "https://github.com/jillianntish/pomme_diem#readme",
+  "dependencies": {
+    "progressbar.js": "^1.1.0"
+  }
 }
