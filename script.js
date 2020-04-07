@@ -27,12 +27,23 @@ breakDurationInput.value = '5';
 let isClockStopped = true;
 
 const progressBar = new ProgressBar.Circle("#pomodoro-timer", {
-  strokeWidth: 2,
+  strokeWidth: 5,
+  trailWidth: 5,
+  // color: 'navy',
   text: {
-    value: "25:00"
+    value: "0:00",
   },
-  trailColor: "#f4f4f4",
+  // trailColor: "white",
+  from: { color: '#aad272' },
+    to: { color: '#f2e7b7' },
+    step: function(state, circle, attachment) {
+        circle.path.setAttribute('stroke', state.color);
+    }
 });
+progressBar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+progressBar.text.style.fontSize = '3rem';
+progressBar.text.style.color = "#aad272";
+progressBar.animate(1.0);
 
 // START
 startButton.addEventListener('click', () => {

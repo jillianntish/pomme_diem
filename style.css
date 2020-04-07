@@ -1,12 +1,26 @@
+
 body {
-  background-color: lightblue;
+  /* background: linear-gradient(90deg, #650b0b 0%, #b90403 45%, #e3192a 100%);  */
+  background-image: url('./Pomegranate-Seeds-Transparent-Image.png');
+  background-size: cover;
+  font-family: Raleway, Helvetica, sans-serif;
+  color: #f2e7b7;
 }
 
 h1 {
-  color: navy;
+  color: #aad272;
   margin-left: 20px;
+  font-family: Raleway, Helvetica, sans-serif;
+;
 }
 
 .hidden {
   display: none;
+}
+
+#pomodoro-timer {
+  margin: 20px;
+  width: 250px;
+  height: 250px;
+  position: fixed;
 }

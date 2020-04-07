@@ -3,22 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.css" rel="stylesheet">
-    <title>Pomme Diem</title>
+    <title>Pomme Diem!</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
     <script src="./node_modules/progressbar.js/dist/progressbar.js"></script>
   </head>
   <body>
-
     <h1>Pomme Diem</h1>
+    <p>Your challenge, should you choose to accept...</p>
     <div id="pomodoro-container">
       <div id="pomodoro-clock">
-        <div id="pomodoro-timer"></div>
         <div>
           <input
             type="text"
             id="pomodoro-clock-task"
-            placeholder="Your challenge..."
+            placeholder="Session Label"
             />
         </div>
         <div id="pomodoro-clock-actions">
@@ -31,24 +30,21 @@
           </button>
         </div>
         <div id="pomodoro-clock-title">
-          <span>
-            Changes made here will reflect at the start of the next work /
-            break session
-          </span>
         </div>
         <div id="pomodoro-clock-actions">
           <div class="pomodoro-input">
-            <label>Work Duration</label>
+            <label>Work Time:</label>
             <input name="input-work-duration" id="input-work-duration" type="number" />
           </div>
           <div class="pomodoro-input">
-            <label>Break Duration</label>
+            <label>Break Time:
             <input name="input-break-duration" id="input-break-duration" type="number" />
           </div>
+          <div id="pomodoro-timer"></div>
         </div>
       </div>
       <div id="pomodoro-info">
-        <h3> Sessions</h3>
+        <h3> Best Sessions:</h3>
         <ul id="pomodoro-sessions">
         </ul>
       </div>
