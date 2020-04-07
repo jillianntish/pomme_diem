@@ -34,7 +34,7 @@ const progressBar = new ProgressBar.Circle("#pomodoro-timer", {
     value: "0:00",
   },
   // trailColor: "white",
-  from: { color: '#aad272' },
+  from: { color: '#eee' },
     to: { color: '#f2e7b7' },
     step: function(state, circle, attachment) {
         circle.path.setAttribute('stroke', state.color);
@@ -42,7 +42,7 @@ const progressBar = new ProgressBar.Circle("#pomodoro-timer", {
 });
 progressBar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
 progressBar.text.style.fontSize = '3rem';
-progressBar.text.style.color = "#aad272";
+progressBar.text.style.color = "#a61a1d";
 progressBar.animate(1.0);
 
 // START

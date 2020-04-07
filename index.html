@@ -10,10 +10,11 @@
   </head>
   <body>
     <h1>Pomme Diem</h1>
-    <p>Your challenge, should you choose to accept...</p>
     <div id="pomodoro-container">
       <div id="pomodoro-clock">
         <div>
+          <p>Seize the day, 25 minutes at a time.</p>
+          <label>Session Task:</label>
           <input
             type="text"
             id="pomodoro-clock-task"
@@ -21,14 +22,11 @@
             />
         </div>
         <div id="pomodoro-clock-actions">
-          <button id="pomodoro-start">
-            <i class="fas fa-play" id="play-icon"></i>
-            <i class="fas fa-pause hidden" id="pause-icon"></i>
-          </button>
-          <button id="pomodoro-stop" class="hidden">
-            <i class="fas fa-stop"></i>
-          </button>
+          <div></div>
+          <div></div>
         </div>
+        <br>
+        <br>
         <div id="pomodoro-clock-title">
         </div>
         <div id="pomodoro-clock-actions">
@@ -36,15 +34,26 @@
             <label>Work Time:</label>
             <input name="input-work-duration" id="input-work-duration" type="number" />
           </div>
+          <br>
           <div class="pomodoro-input">
             <label>Break Time:
             <input name="input-break-duration" id="input-break-duration" type="number" />
           </div>
+          <br>
+          <p>Click the Pomegranate to start and stop the timer!</p>
+          <div id="pomodoro-start">
+          <input type="image" id="play-icon" src="pngfind.com-pomegranate-png-97298.png" style="width: 50px; height: 50px;" alt='squeeze the pomegranate to start the clock'>
+        </input>
+        </div>
+          <div id="pomodoro-stop">
+          <input type="image" id="pause-icon" class="hidden" src="iss_22196_17003.jpg" style="width: 60px; height: 60px; ">
+          </input>
+        </div>
           <div id="pomodoro-timer"></div>
         </div>
       </div>
       <div id="pomodoro-info">
-        <h3> Best Sessions:</h3>
+        <h3> Session Log:</h3>
         <ul id="pomodoro-sessions">
         </ul>
       </div>
