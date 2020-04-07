@@ -4,11 +4,12 @@ body {
   background-image: url('./Pomegranate-Seeds-Transparent-Image.png');
   background-size: cover;
   font-family: Raleway, Helvetica, sans-serif;
-  color: #f2e7b7;
+  color: #d8c7a9;
+  font-size: medium;
 }
 
 h1 {
-  color: #aad272;
+  color: #a61a1d;
   margin-left: 20px;
   font-family: Raleway, Helvetica, sans-serif;
 ;
