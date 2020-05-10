@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+$(document).ready(() => {
 const pomodoroTimer = document.querySelector('#pomodoro-timer');
 
 const startButton = document.querySelector('#pomodoro-start');
